@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortTasksByPriority(){
-        Collections.sort(taskList, (a, b) -> {
+        taskList.sort((a, b) -> {
             return getPriorityValue(a.getPriority()) - getPriorityValue(b.getPriority());
         });
     }

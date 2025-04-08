@@ -1,11 +1,13 @@
 package com.example.to_do_list;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,17 +52,35 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.priority.setText("Priority: " + task.getPriority());
         holder.checkBox.setChecked(task.isCompleted());
 
+        // Strike-through if completed
+        if (task.isCompleted()) {
+            holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.title.setPaintFlags(holder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+
+        // Handle checkbox toggle
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            task.setCompleted(isChecked);
+            db.updateTask(task);  // Make sure you have this method
+            notifyItemChanged(position);
+        });
+
+        // Delete button logic
         holder.deleteBtn.setOnClickListener(v -> {
-            db.deletetask(task.getId());
-            tasks.remove(position);
-            notifyItemRemoved(position);
+            if (task.isCompleted()) {
+                db.deletetask(task.getId());
+                tasks.remove(position);
+                notifyItemRemoved(position);
+            } else {
+                Toast.makeText(v.getContext(), "Please complete the task before deleting", Toast.LENGTH_SHORT).show();
+            }
         });
     }
-
 
     @Override
     public int getItemCount() {
         return tasks.size();
     }
-}
 
+}
