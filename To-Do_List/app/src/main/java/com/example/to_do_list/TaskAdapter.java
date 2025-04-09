@@ -48,25 +48,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
         Task task = tasks.get(position);
+
+        holder.checkBox.setOnCheckedChangeListener(null);
+
         holder.title.setText(task.getTitle());
         holder.priority.setText("Priority: " + task.getPriority());
         holder.checkBox.setChecked(task.isCompleted());
 
-        // Strike-through if completed
+
         if (task.isCompleted()) {
             holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.title.setPaintFlags(holder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
-        // Handle checkbox toggle
+
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             task.setCompleted(isChecked);
-            db.updateTask(task);  // Make sure you have this method
+            db.updateTask(task);
             notifyItemChanged(position);
         });
 
-        // Delete button logic
+
         holder.deleteBtn.setOnClickListener(v -> {
             if (task.isCompleted()) {
                 db.deletetask(task.getId());

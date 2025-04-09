@@ -53,7 +53,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(COL_COMPLETED, task.isCompleted() ? 1 : 0);
 
         db.insert(TABLE_NAME, null, values);
-        db.close();
+
     }
 
     public void deletetask (int id){
@@ -87,7 +87,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(COL_COMPLETED, task.isCompleted() ? 1 : 0);
 
         db.update(TABLE_NAME, values, COL_ID + "=?", new String[]{String.valueOf(task.getId())});
-        db.close();
+
     }
 
 }

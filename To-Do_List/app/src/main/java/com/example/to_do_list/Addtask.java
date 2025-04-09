@@ -37,7 +37,7 @@ public class Addtask extends AppCompatActivity {
             String priority = getSelectedPriority();
 
             if (title.isEmpty() || priority == null) {
-                Toast.makeText(this, "Please enter title and select priority", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter Task and select priority", Toast.LENGTH_SHORT).show();
                 return;
             }
 

@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadTasks() {
         taskList = db.getAllTasks();
         sortTasksByPriority();
-        adapter = new TaskAdapter(taskList, db);
+        adapter = new TaskAdapter(taskList,db);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
